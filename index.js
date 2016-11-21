@@ -4,21 +4,25 @@
         particles = [],
         requestId,
         readyFlag,
-        speed;
+        speed,
+        direction;
 
-    document.getElementById('begin').addEventListener('click',function(){
-        if(readyFlag){
+    document.getElementById('begin').addEventListener('click', function () {
+        if (readyFlag) {
             speed = Math.abs(parseInt(document.getElementById('speed').value));
-            if(speed){
-                document.getElementById('comments').innerText = 'speed = ' + speed;
-            }else{
-                document.getElementById('comments').innerText = 'Invalid speed , move as speed = 100'
+            direction = document.getElementById('direction').value;
+            if (speed) {
+                document.getElementById('speed-comments').innerText = 'speed = ' + speed;
+                document.getElementById('direction-comments').innerText = 'direction = ' + direction;
+            } else {
+                document.getElementById('speed-comments').innerText = 'Invalid speed , move as speed = 100';
+                document.getElementById('direction-comments').innerText = 'direction = ' + direction;
                 speed = 100;
             }
             particles = [],
-            calculate();
+                calculate();
             requestId = requestAnimationFrame(draw)
-        } else{
+        } else {
             alert('Not Ready');
         }
     });
@@ -26,7 +30,8 @@
         var cols = 150,
             rows = 100;
         var s_width = parseInt(image.w / cols),
-            s_height = parseInt(image.h / rows);
+            s_height = parseInt(image.h / rows),
+            initX, initY;
         var pos;
         //console.log(image.h);
         //console.log(cols,rows);
@@ -34,14 +39,47 @@
         for (var i = 1; i < image.w; i++) {
             for (var j = 1; j < image.h; j++) {
                 pos = (i * s_width + j * s_height * image.w) * 4;
-
+                switch (direction) {
+                    case 'around':
+                        initX = image.x + Math.random() * 170;
+                        initY = image.y + Math.random() * 115;
+                        break;
+                    case 'center':
+                        initX = image.x + image.w / 2;
+                        initY = image.y + image.h / 2;
+                        break;
+                    case 'right':
+                        initX = image.x + 170;
+                        initY = image.y + 20 + Math.random() * 90;
+                        break;
+                    case 'left':
+                        initX = image.x;
+                        initY = image.y + 20 +  Math.random() * 90;
+                        break;
+                    case 'top':
+                        initX = image.x + Math.random() * 170;
+                        initY = image.y;
+                        break;
+                    case 'bottom':
+                        initX = image.x + Math.random() * 170;
+                        initY = image.y + 115;
+                        break;
+                    case 'corner':
+                        initX = image.x;
+                        initY = image.y;
+                        break;
+                    default:
+                        initX = image.x + Math.random() * 170;
+                        initY = image.y + Math.random() * 115;
+                        break;
+                }
                 //pos = (i + j * image.w) * 4;
                 if (image.imageData[pos + 3] > 0) {
                     var particle = {
                         x: image.x + i * s_width + (Math.random() - 0.5) * 10,
                         y: image.y + j * s_height + (Math.random() - 0.5 ) * 10,
-                        initX: image.x + Math.random() * 170,
-                        initY: image.y + Math.random() * 115,
+                        initX: initX,
+                        initY: initY,
                         currX: null,
                         currY: null,
                         //x: image.x + i,

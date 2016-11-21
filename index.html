@@ -6,14 +6,28 @@
 </head>
 <link rel="stylesheet" href="./index.css">
 <body>
-<input type="text" id="speed" value="100"><button id="begin">Go</button>
+<label>Speed:</label><input type="text" id="speed" value="100">
+<label>direction</label>
+<select id="direction">
+    <option value="around">Around</option>
+    <option value="center">Center</option>
+    <option value="left">Left</option>
+    <option value="right">Right</option>
+    <option value="top">Top</option>
+    <option value="bottom">Bottom</option>
+    <option value="corner">Corner</option>
+</select>
+<button id="begin">Go</button>
 <p>set the speed , only positive integer , better between 10 and 1000 <br>
     click 'Go' to see difference
 </p>
-<p id="comments">
+<p id="speed-comments">
 
 </p>
-    <canvas id="myCanvas"></canvas>
+<p id="direction-comments">
+
+</p>
+<canvas id="myCanvas"></canvas>
 </body>
 <script src="index.js"></script>
 </html>
